@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="Config/startup.php"
+        colors="true"
+        verbose="true"
+>
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>App/App.Test/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="DB_SERVER" value="localhost"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_DATABASE" value="raintree"/>
+    </php>
+</phpunit>

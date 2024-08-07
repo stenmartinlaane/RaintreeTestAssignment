@@ -1,0 +1,20 @@
+services:
+  sql:
+    image: mysql:9.0
+    container_name: raintree-sql-stenmartin
+    ports:
+      # external: internal
+      - 7890:7890
+    volumes:
+      - sql-volume:/var/lib/raintree/mysql/data
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+    restart: on-failure
+    logging:
+      options:
+        max-size: 10m
+        max-file: 3
+volumes:
+  sql-volume:

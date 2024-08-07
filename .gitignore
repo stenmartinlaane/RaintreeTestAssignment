@@ -1,0 +1,46 @@
+# PHP-specific files and directories
+/vendor/
+composer.lock
+composer.phar
+
+# Log files
+*.log
+
+# System files
+.DS_Store
+
+# IDE-specific files
+/.idea/
+/.vscode/
+
+# macOS Finder files
+.AppleDouble
+.LSOverride
+
+# Thumbnails and icon files
+Icon
+Thumbs.db
+
+# OS X specific files
+.DS_Store
+.Trashes
+
+# NPM/Yarn directories
+node_modules/
+
+# PHPUnit files
+phpunit.xml
+phpunit.xml.dist
+
+# Cache and temporary files
+*.cache
+*.tmp
+
+# Environment configuration
+Config/.env
+.env.local
+.env.*.local
+
+# Build output
+/dist/
+build/
