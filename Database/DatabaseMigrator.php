@@ -41,9 +41,7 @@ class DatabaseMigrator
             // Trim any whitespace
             $statement = trim($statement);
             if (!empty($statement)) {
-                if ($conn->query($statement) === TRUE) {
-                    echo "Migration applied successfully\n";
-                } else {
+                if ($conn->query($statement) !== TRUE) {
                     echo "Error applying migration: " . $conn->error . "\n";
                 }
             }

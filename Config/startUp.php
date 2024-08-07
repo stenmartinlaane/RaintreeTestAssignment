@@ -14,14 +14,14 @@ use Dotenv\Dotenv;
 //==========================================
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-echo "================\n";
-echo $_ENV['APP_ENV'];
-echo "================\n";
-if (getenv('APP_ENV') === 'test') {
-    $_ENV['APP_ENV'] = "test";
-}
-echo $_ENV['APP_ENV'];
-echo "================\n";
+//echo "================\n";
+//echo $_ENV['APP_ENV'];
+//echo "================\n";
+//if (getenv('APP_ENV') === 'test') {
+//    $_ENV['APP_ENV'] = "test";
+//}
+//echo $_ENV['APP_ENV'];
+//echo "================\n";
 $environment = $_ENV['APP_ENV'];
 
 
