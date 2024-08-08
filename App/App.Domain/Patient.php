@@ -4,9 +4,7 @@ namespace App\Domain;
 
 use Base\BaseContractsDAL\IDbProvider;
 use Base\BaseContractsDomain\PatientRecord;
-use App\DAL\DbProvider;
 use DateTime;
-use DI\Attribute\Inject;
 use Exception;
 use Helpers\DateTimeHelper;
 

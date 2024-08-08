@@ -44,11 +44,6 @@ class DbProvider implements IDbProvider
         return $conn;
     }
 
-    public function saveChangesAsync()
-    {
-
-    }
-
     public function executeQuery(string $sql): bool|mysqli_result
     {
         $result = $this->conn->query($sql);

@@ -2,15 +2,8 @@
 
 namespace Integration;
 
-use App\DAL\DbProvider;
 use App\Domain\Insurance;
-use App\Domain\Patient;
-use Base\BaseContractsDAL\IDbProvider;
 use Base\BaseContractsTest\DatabaseTestCase;
-use Database\DatabaseCreator;
-use Database\DatabaseMigrator;
-use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 
 class InsuranceTest extends DatabaseTestCase
 {
