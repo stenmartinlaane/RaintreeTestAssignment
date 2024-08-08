@@ -15,14 +15,16 @@ class DbProvider implements IDbProvider
     private ?string $password;
     private ?string $database;
     private ?string $port;
+    private ?string $socket;
 
-    public function __construct(?string $servername = null, ?string $username = null, ?string $password = null, ?string $database = null, ?string $port = null)
+    public function __construct(?string $servername = null, ?string $username = null, ?string $password = null, ?string $database = null, ?string $port = null, ?string $socket = null)
     {
         $this->servername = $servername ?? $_ENV['DB_SERVER'];
-        $this->username = $username ?? $_ENV['DB_USERNAME'];
+        $this->username = $username ?? $_ENV['DB_ROOT_USERNAME'];
         $this->password = $password ?? $_ENV['DB_PASSWORD'];
         $this->database = $database ?? $_ENV['DB_DATABASE'];
-        $this->port = $port ?? $_ENV['DB_DATABASE'];
+        $this->port = $port ?? $_ENV['DB_PORT'];
+        $this->socket = $socket ?? $_ENV['DB_SOCKET'];
         $this->conn = $this->connectToDataBase();
     }
 
@@ -34,7 +36,7 @@ class DbProvider implements IDbProvider
     }
 
     private function connectToDataBase() {
-        $conn = new mysqli($this->servername, $this->username, $this->password, $this->database, (int)$this->port);
+        $conn = new mysqli($this->servername, $this->username, $this->password, $this->database, (int)$this->port, $this->socket);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

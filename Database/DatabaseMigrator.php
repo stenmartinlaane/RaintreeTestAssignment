@@ -11,19 +11,21 @@ class DatabaseMigrator
     private string $password;
     private string $dbname;
     private string $port;
+    private ?string $socket;
 
-    public function __construct(string $host, string $username, string $password, string $dbname, string $port)
+    public function __construct(string $host, string $username, string $password, string $dbname, string $port, ?string $socket = null)
     {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
         $this->dbname = $dbname;
         $this->port = $port;
+        $this->socket = $socket;
     }
 
     public function applyMigrations(string $filePath)
     {
-        $conn = new mysqli($this->host, $this->username, $this->password, $this->dbname, (int)$this->port);
+        $conn = new mysqli($this->host, $this->username, $this->password, $this->dbname, (int)$this->port, $this->socket);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
@@ -52,7 +54,7 @@ class DatabaseMigrator
 
     public function dropDatabase()
     {
-        $conn = new mysqli($this->host, $this->username, $this->password);
+        $conn = new mysqli($this->host, $this->username, $this->password, null, (int)$this->port, $this->socket);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

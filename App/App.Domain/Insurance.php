@@ -23,7 +23,7 @@ class Insurance implements PatientRecord
      */
     public function __construct(
         int $_id,
-        bool $dbProviderNeeded,
+        bool $constructFromDatabase = false,
         ?IDbProvider $dbProvider = null,
         ?int $patientId = null,
         ?string $pn = null,
@@ -31,22 +31,19 @@ class Insurance implements PatientRecord
         ?DateTime $fromDate = null,
         ?DateTime $toDate = null
     ) {
-        if ($dbProviderNeeded) {
+        if ($constructFromDatabase) {
             global $container;
             $this->dbProvider = $dbProvider ?? $container->make(IDbProvider::class);
-        }
-        if (is_null($patientId) || is_null($pn) || is_null($iname) || is_null($fromDate) || is_null($toDate)) {
-            $insuranceData = $this->fetchInsuranceDataById($_id);
 
+            $insuranceData = $this->fetchInsuranceDataById($_id);
             if ($insuranceData) {
                 $this->_id = $_id;
                 $this->patientId = $insuranceData['patient_id'];
                 $this->pn = $insuranceData['pn'];
                 $this->iname = $insuranceData['iname'];
-                $this->fromDate = DateTimeHelper::stringToDate("Y-m-d", $insuranceData['from_date']);
-                $this->toDate = DateTimeHelper::stringToDate("Y-m-d", $insuranceData['to_date']);
+                $this->fromDate = $insuranceData['from_date'] ?  DateTimeHelper::stringToDate("Y-m-d", $insuranceData['from_date']) : null;
+                $this->toDate = $insuranceData['to_date'] ? DateTimeHelper::stringToDate("Y-m-d", $insuranceData['to_date']) : null;
             } else {
-                // Handle cases where no insurance data is found
                 throw new \Exception("Insurance not found.");
             }
         } else {
@@ -59,7 +56,7 @@ class Insurance implements PatientRecord
         }
     }
 
-    private function fetchInsuranceDataById(string $id): ?array
+    private function fetchInsuranceDataById(int $id): ?array
     {
         $sql = "SELECT insurance.patient_id, insurance.iname, insurance.from_date, insurance.to_date, patient.pn
             FROM insurance 
@@ -68,7 +65,7 @@ class Insurance implements PatientRecord
             ";
 
         $stmt = $this->dbProvider->prepareStatement($sql);
-        $stmt->bind_param("s", $id);
+        $stmt->bind_param("i", $id);
         $result = $this->dbProvider->executeStatement($stmt);
 
         if ($result->num_rows > 0) {

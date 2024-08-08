@@ -3,10 +3,10 @@
 use App\Domain\Patient;
 use Base\BaseContractsDAL\IDbProvider;
 
-function displayInsuranceStatusByTodaysDate()
+function displayInsuranceStatusByTodaysDate(?IDbProvider $dbProvider = null) : void
 {
     global $container;
-    $dbProvider = $container->make(IDbProvider::class);
+    $dbProvider = $dbProvider ?? $container->make(IDbProvider::class);
     $sql = "SELECT patient.pn
             FROM patient";
     $result = $dbProvider->executeQuery($sql);

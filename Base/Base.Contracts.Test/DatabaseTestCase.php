@@ -20,12 +20,12 @@ abstract class DatabaseTestCase extends TestCase
         $dbname = "testDatabase-" . $uuid->toString();
         $dbname = str_replace("-", "_", $dbname);
 
-        $dbCreator = new DatabaseCreator('localhost', $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_PORT']);
+        $dbCreator = new DatabaseCreator($_ENV['DB_SERVER'], $_ENV['DB_ROOT_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_PORT'], $_ENV['DB_SOCKET']);
         $dbCreator->createDatabase($dbname);
-        self::$migrator = new DatabaseMigrator('localhost', $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $dbname, $_ENV['DB_PORT']);
+        self::$migrator = new DatabaseMigrator($_ENV['DB_SERVER'], $_ENV['DB_ROOT_USERNAME'], $_ENV['DB_PASSWORD'], $dbname, $_ENV['DB_PORT'], $_ENV['DB_SOCKET']);
         self::$migrator->applyMigrations(BASE_PATH . "Database/Migrations/migrations.sql");
         self::$migrator->applyMigrations(BASE_PATH . "Database/Seeds/TestSeedData.sql");
-        self::$dbProvider = new DbProvider('localhost', $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $dbname, $_ENV['DB_PORT']);
+        self::$dbProvider = new DbProvider($_ENV['DB_SERVER'], $_ENV['DB_ROOT_USERNAME'], $_ENV['DB_PASSWORD'], $dbname, $_ENV['DB_PORT'], $_ENV['DB_SOCKET']);
     }
 
     public static function tearDownAfterClass(): void

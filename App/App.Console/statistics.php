@@ -1,9 +1,12 @@
 <?php
 
 use App\DAL\DbProvider;
+use Base\BaseContractsDAL\IDbProvider;
 
-function displayStatistics(): void {
-    $result = makeDictionary();
+function displayStatistics(?IDbProvider $dbProvider = null): void {
+    global $container;
+    $dbProvider = $dbProvider ?? $container->make(IDbProvider::class);
+    $result = makeDictionary($dbProvider);
     $charCounts = $result['charCounts'];
     $totalCharCount = $result['totalCharCount'];
 
@@ -17,14 +20,13 @@ function displayStatistics(): void {
     }
 }
 
-function makeDictionary() : array
+function makeDictionary(IDbProvider $dbProvider) : array
 {
-    $DbContext = new DbProvider();
     $sql = "SELECT patient.first, patient.last
             FROM patient;
             ";
 
-    $result = $DbContext->executeQuery($sql);
+    $result = $dbProvider->executeQuery($sql);
     $charCounts = array();
     $totalCharCount = 0;
 

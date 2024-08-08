@@ -1,10 +1,10 @@
 services:
   sql:
-    image: mysql:9.0
+    image: mysql:8.4.2
     container_name: raintree-sql-stenmartin
     ports:
       # external: internal
-      - 7890:7890
+      - 7890:3306
     volumes:
       - sql-volume:/var/lib/raintree/mysql/data
     environment:

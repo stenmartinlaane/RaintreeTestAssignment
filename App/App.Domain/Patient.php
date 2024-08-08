@@ -24,7 +24,6 @@ class Patient implements PatientRecord
 
     private IDbProvider $dbProvider;
 
-    // Constructor
     public function __construct(?string $pn, ?IDbProvider $dbProvider = null) {
         global $container;
         $this->dbProvider = $dbProvider ?? $container->make(IDbProvider::class);
@@ -35,7 +34,7 @@ class Patient implements PatientRecord
             $this->pn = $pn;
             $this->first = $patientData['first'];
             $this->last = $patientData['last'];
-            $this->dob = DateTimeHelper::stringToDate("Y-m-d", $patientData['dob']);
+            $this->dob = $patientData['dob'] ? DateTimeHelper::stringToDate("Y-m-d", $patientData['dob']) : null;
             $this->insuranceRecords = $patientData['insuranceRecords'];
         } else {
             throw new \Exception("Patient not found.");
@@ -68,14 +67,16 @@ class Patient implements PatientRecord
                     $firstLoop = false;
                 }
                 if (!is_null($row['insurance_id'])) {
+                    $from_date = $row['from_date'] ? DateTimeHelper::stringToDate("Y-m-d", $row['from_date']) : null;
+                    $to_date = $row['to_date'] ? DateTimeHelper::stringToDate("Y-m-d", $row['to_date']) : null;
                     $insuranceRecords[] = new Insurance(
                         (int)$row['insurance_id'],
                         false,
                         null,
                         $row['patient_id'],
                         $pn, $row['iname'],
-                        DateTimeHelper::stringToDate("Y-m-d", $row['from_date']),
-                        DateTimeHelper::stringToDate("Y-m-d", $row['to_date'])
+                        $from_date,
+                        $to_date
                     );
                 }
             }
@@ -100,19 +101,16 @@ class Patient implements PatientRecord
     }
 
 
-    // Getter and Setter for id
     #[\Override] public function getId(): int
     {
         return $this->id;
     }
 
-    // Getter and Setter for pn
     #[\Override] public function getPn(): ?string
     {
         return $this->pn;
     }
 
-    // Getter and Setter for first
     public function getFirst(): ?string
     {
         return $this->first;
@@ -121,20 +119,18 @@ class Patient implements PatientRecord
     public function getFullName(): ?string
     {
         $fullName = ($this->first ?: "") . " " . ($this->last ?: "");
-        if ($fullName === null) {
+        if (is_null($this->first) && is_null($this->last)) {
             return null;
         }
         return $fullName;
     }
 
 
-    // Getter and Setter for last
     public function getLast(): ?string
     {
         return $this->last;
     }
 
-    // Getter and Setter for dob
     public function getDob(): ?DateTime
     {
         return $this->dob;
