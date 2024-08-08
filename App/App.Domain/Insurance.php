@@ -23,7 +23,7 @@ class Insurance implements PatientRecord
      */
     public function __construct(
         int $_id,
-        bool $constructFromDatabase = false,
+        bool $constructFromDatabase = true,
         ?IDbProvider $dbProvider = null,
         ?int $patientId = null,
         ?string $pn = null,
