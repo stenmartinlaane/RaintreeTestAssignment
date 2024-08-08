@@ -12,12 +12,15 @@
 git clone https://github.com/stenmartinlaane/RaintreeTestAssignment
 cd ./RaintreeTestAssignment
 composer install
+composer dump-autoload
 ~~~
 - Start docker daemon if not already started (Launch Docker Desktop).
 - Then run the following command:
 ~~~bash
 docker-compose up -d --build
 ~~~
+If you encounter error `Uncaught Error: Class "mysqli" not found` while running the code, enable the `extension=mysqli` in `php.ini`.
+
 ### Configure env
 If you are not using docker database you can configure the connection here:
 ~~~bash
