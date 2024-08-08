@@ -37,7 +37,7 @@ phpunit.xml.dist
 *.tmp
 
 # Environment configuration
-Config/.env
+#Config/.env
 .env.local
 .env.*.local
 
